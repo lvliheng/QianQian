@@ -27,17 +27,7 @@ public class MomentsAdapter extends MyBaseAdapter {
 
     @Override
     public int getCount() {
-        return 10;
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
+        return 20;
     }
 
     @Override
