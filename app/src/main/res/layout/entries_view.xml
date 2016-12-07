@@ -5,13 +5,9 @@
               android:layout_height="match_parent"
               android:background="@mipmap/entries_bg">
 
-    <ListView
-        android:id="@+id/entries_lv"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/entries_rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:listSelector="@android:color/transparent"
-        android:divider="@null"
-        android:dividerHeight="0dp"/>
-
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

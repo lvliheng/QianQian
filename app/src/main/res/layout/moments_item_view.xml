@@ -16,7 +16,7 @@
             android:layout_width="1dp"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@color/gray"/>
+            android:background="@color/main"/>
 
         <TextView
             android:id="@+id/moments_item_date_tv"
@@ -26,13 +26,13 @@
             android:layout_marginBottom="5dp"
             android:text="11.29"
             android:textSize="12sp"
-            android:textColor="@color/gray"/>
+            android:textColor="@color/main"/>
 
         <View
             android:layout_width="1dp"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@color/gray"/>
+            android:background="@color/main"/>
 
     </LinearLayout>
 
@@ -45,12 +45,15 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="15dp"
         android:layout_weight="1"
+        android:textColor="@color/main"
         android:text="@string/moments_value"/>
 
     <ImageView
         android:id="@+id/moments_item_iv"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@mipmap/ic_launcher"/>
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp"
+        android:background="@mipmap/picture_default_icon"/>
 
 </LinearLayout>

@@ -19,7 +19,7 @@
             android:textColor="@color/white"
             android:textSize="50sp"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -28,9 +28,11 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/entries_item_left_ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:orientation="vertical">
 
             <TextView
@@ -51,9 +53,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_toLeftOf="@+id/entries_item_right_rl"
+            android:layout_toRightOf="@+id/entries_item_left_ll"
             android:layout_marginLeft="10dp"
             android:orientation="vertical">
 
@@ -84,8 +87,10 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/entries_item_right_rl"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true">
 
             <ImageView
                 android:id="@+id/entries_item_weather_iv"
@@ -109,13 +114,13 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_below="@+id/entries_item_weather_iv"
                 android:scaleType="centerCrop"
                 android:background="@mipmap/picture_default_icon"/>
 
         </RelativeLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
