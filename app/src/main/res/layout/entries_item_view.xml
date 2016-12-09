@@ -71,7 +71,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:textSize="16sp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textSize="18sp"
+                android:textColor="@color/main"
+                android:text="@string/moments_value"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textSize="15sp"
                 android:textColor="@color/main"
                 android:text="@string/moments_value"/>
 
@@ -82,7 +94,7 @@
                 android:textSize="12sp"
                 android:textColor="@color/main"
                 android:textStyle="italic"
-                android:text="东京"/>
+                android:text="Tokyo"/>
 
         </LinearLayout>
 

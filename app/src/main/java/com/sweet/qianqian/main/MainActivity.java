@@ -11,6 +11,7 @@ import android.view.View;
 import com.flyco.tablayout.SegmentTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.sweet.qianqian.R;
+import com.sweet.qianqian.diary.DiaryFragment;
 import com.sweet.qianqian.entries.EntriesFragment;
 import com.sweet.qianqian.moments.MomentsFragment;
 
@@ -41,13 +42,10 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void init() {
-
-//        mainShadowView.getBackground().setAlpha(254);
-
         fragments = new ArrayList<Fragment>();
         fragments.add(EntriesFragment.newInstance(0));
         fragments.add(MomentsFragment.newInstance(1));
-        fragments.add(TempFragment.newInstance(2));
+        fragments.add(DiaryFragment.newInstance(2));
 
         mainSlidingTab.setTabData(titles);
 

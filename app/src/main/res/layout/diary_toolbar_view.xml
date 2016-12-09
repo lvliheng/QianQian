@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="10dp"
+              android:gravity="center_horizontal"
+              android:background="@color/main">
+
+    <ImageButton
+        android:id="@+id/diary_toolbar_more_ib"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@mipmap/diary_ellipsis_icon"/>
+
+    <ImageButton
+        android:id="@+id/diary_toolbar_position_ib"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="20dp"
+        android:background="@mipmap/diary_position_icon"/>
+
+    <ImageButton
+        android:id="@+id/diary_toolbar_camera_ib"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="20dp"
+        android:background="@mipmap/diary_camera_icon"/>
+
+    <ImageButton
+        android:id="@+id/diary_toolbar_delete_ib"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="20dp"
+        android:background="@mipmap/diary_delete_icon"/>
+
+    <ImageButton
+        android:id="@+id/diary_toolbar_save_ib"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="20dp"
+        android:background="@mipmap/diary_save_icon"/>
+
+</LinearLayout>

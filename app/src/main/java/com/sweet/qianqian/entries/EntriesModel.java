@@ -6,12 +6,14 @@ package com.sweet.qianqian.entries;
 public class EntriesModel {
 
     private String month;
-    private String date;
+    private String day;
     private String week;
+    private String weekShort;
     private String time;
-    private String place;
+    private String position;
     private String weather;
     private String emotion;
+    private String title;
     private String content;
 
 
@@ -23,12 +25,12 @@ public class EntriesModel {
         this.month = month;
     }
 
-    public String getDate() {
-        return date;
+    public String getDay() {
+        return day;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDay(String day) {
+        this.day = day;
     }
 
     public String getWeek() {
@@ -39,6 +41,14 @@ public class EntriesModel {
         this.week = week;
     }
 
+    public String getWeekShort() {
+        return weekShort;
+    }
+
+    public void setWeekShort(String weekShort) {
+        this.weekShort = weekShort;
+    }
+
     public String getTime() {
         return time;
     }
@@ -47,12 +57,12 @@ public class EntriesModel {
         this.time = time;
     }
 
-    public String getPlace() {
-        return place;
+    public String getPosition() {
+        return position;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public String getWeather() {
@@ -71,11 +81,35 @@ public class EntriesModel {
         this.emotion = emotion;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public String toString() {
+        return "EntriesModel{" +
+                "month='" + month + '\'' +
+                ", day='" + day + '\'' +
+                ", week='" + week + '\'' +
+                ", weekShort='" + weekShort + '\'' +
+                ", time='" + time + '\'' +
+                ", position='" + position + '\'' +
+                ", weather='" + weather + '\'' +
+                ", emotion='" + emotion + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                '}';
     }
 }

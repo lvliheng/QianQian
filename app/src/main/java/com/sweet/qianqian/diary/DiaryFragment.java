@@ -1,0 +1,204 @@
+/*
+ * Copyright (C) 2013 Andreas Stuetz <andreas.stuetz@gmail.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.sweet.qianqian.diary;
+
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.avos.avoscloud.AVObject;
+import com.sweet.qianqian.R;
+import com.sweet.qianqian.common.ResizeRelativeLayout;
+import com.sweet.qianqian.entries.EntriesDBModel;
+import com.sweet.qianqian.main.BaseFragment;
+import com.sweet.qianqian.utils.LogUtils;
+
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class DiaryFragment extends BaseFragment implements View.OnClickListener, ResizeRelativeLayout.LayoutSizeChangeListener {
+
+    private static final String EXTRA_POSITION = "position";
+    @BindView(R.id.diary_date_month_tv)
+    TextView diaryDateMonthTv;
+    @BindView(R.id.diary_date_day_tv)
+    TextView diaryDateDayTv;
+    @BindView(R.id.diary_date_week_tv)
+    TextView diaryDateWeekTv;
+    @BindView(R.id.diary_date_time_tv)
+    TextView diaryDateTimeTv;
+    @BindView(R.id.diary_position_tv)
+    TextView diaryPositionTv;
+    @BindView(R.id.diary_date_ll)
+    LinearLayout diaryDateLl;
+    @BindView(R.id.diary_title_et)
+    EditText diaryTitleEt;
+    @BindView(R.id.diary_weather_ib)
+    ImageButton diaryWeatherIb;
+    @BindView(R.id.diary_emotion_ib)
+    ImageButton diaryEmotionIb;
+    @BindView(R.id.diary_title_ll)
+    LinearLayout diaryTitleLl;
+    @BindView(R.id.diary_content_et)
+    EditText diaryContentEt;
+    @BindView(R.id.diary_toolbar_more_ib)
+    ImageButton diaryToolbarMoreIb;
+    @BindView(R.id.diary_toolbar_position_ib)
+    ImageButton diaryToolbarPositionIb;
+    @BindView(R.id.diary_toolbar_camera_ib)
+    ImageButton diaryToolbarCameraIb;
+    @BindView(R.id.diary_toolbar_delete_ib)
+    ImageButton diaryToolbarDeleteIb;
+    @BindView(R.id.diary_toolbar_save_ib)
+    ImageButton diaryToolbarSaveIb;
+    @BindView(R.id.diary_main_rl)
+    ResizeRelativeLayout diaryMainRl;
+
+    private String weekShort;
+    private String weather;
+    private String emotion;
+    private String position;
+    private String monthNum;
+
+
+
+    public static DiaryFragment newInstance(int position) {
+        DiaryFragment tempFragment = new DiaryFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(EXTRA_POSITION, position);
+        tempFragment.setArguments(bundle);
+        return tempFragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+//        int position = getArguments().getInt(EXTRA_POSITION);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.diary_view, container, false);
+        ButterKnife.bind(this, view);
+        init();
+        return view;
+    }
+
+    private void init() {
+
+        weather = "0";
+        emotion = "0";
+        position = "Tokyo";
+
+
+        diaryMainRl.setLayoutSizeChangeListenner(this);
+        diaryWeatherIb.setOnClickListener(this);
+        diaryEmotionIb.setOnClickListener(this);
+        diaryToolbarMoreIb.setOnClickListener(this);
+        diaryToolbarPositionIb.setOnClickListener(this);
+        diaryToolbarCameraIb.setOnClickListener(this);
+        diaryToolbarDeleteIb.setOnClickListener(this);
+        diaryToolbarSaveIb.setOnClickListener(this);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getDefault());
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        diaryDateMonthTv.setText(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH));
+        diaryDateDayTv.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+        diaryDateWeekTv.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH));
+        diaryDateTimeTv.setText(calendar.get(Calendar.HOUR_OF_DAY) + " : " + calendar.get(Calendar.MINUTE));
+        weekShort = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ENGLISH) + ".";
+        monthNum = String.valueOf(calendar.get(Calendar.MONTH));
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.diary_weather_ib:
+                break;
+            case R.id.diary_emotion_ib:
+                break;
+            case R.id.diary_toolbar_more_ib:
+                break;
+            case R.id.diary_toolbar_position_ib:
+                break;
+            case R.id.diary_toolbar_camera_ib:
+                break;
+            case R.id.diary_toolbar_delete_ib:
+                break;
+            case R.id.diary_toolbar_save_ib:
+                deliverData();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void deliverData() {
+        AVObject avObject = new AVObject(EntriesDBModel.ENTRIES);
+        avObject.put(EntriesDBModel.MONTH, diaryDateMonthTv.getText());
+        avObject.put(EntriesDBModel.MONTH_NUM, monthNum);
+        avObject.put(EntriesDBModel.DAY, diaryDateDayTv.getText());
+        avObject.put(EntriesDBModel.WEEK, diaryDateWeekTv.getText());
+        avObject.put(EntriesDBModel.WEEK_SHORT, weekShort);
+        avObject.put(EntriesDBModel.TIME, diaryDateTimeTv.getText());
+        avObject.put(EntriesDBModel.POSITION, position);
+        avObject.put(EntriesDBModel.WEATHER, weather);
+        avObject.put(EntriesDBModel.EMOTION, emotion);
+        avObject.put(EntriesDBModel.TITLE, diaryTitleEt.getText().toString().trim());
+        avObject.put(EntriesDBModel.CONTENT, diaryContentEt.getText().toString().trim());
+        LogUtils.e("entries", "" + avObject);
+        avObject.saveInBackground();
+    }
+
+    @Override
+    public void onIsSoftInputShow(boolean isShow) {
+        if (isShow) {
+            handler.sendEmptyMessage(0);
+        } else {
+            handler.sendEmptyMessage(1);
+        }
+    }
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    diaryMainRl.setPadding(0, -diaryDateLl.getHeight(), 0, 0);
+                    break;
+                case 1:
+                    diaryMainRl.setPadding(0, 0, 0, 0);
+                    break;
+            }
+        }
+    };
+
+
+}
