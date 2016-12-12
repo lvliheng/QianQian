@@ -1,11 +1,15 @@
 package com.sweet.qianqian.entries;
 
+import java.io.Serializable;
+
 /**
  * Created by lvliheng on 16/12/6.
  */
-public class EntriesModel {
+public class EntriesModel implements Serializable {
 
+    private String id;
     private String month;
+    private String monthNum;
     private String day;
     private String week;
     private String weekShort;
@@ -17,12 +21,28 @@ public class EntriesModel {
     private String content;
 
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getMonth() {
         return month;
     }
 
     public void setMonth(String month) {
         this.month = month;
+    }
+
+    public String getMonthNum() {
+        return monthNum;
+    }
+
+    public void setMonthNum(String monthNum) {
+        this.monthNum = monthNum;
     }
 
     public String getDay() {
@@ -100,7 +120,9 @@ public class EntriesModel {
     @Override
     public String toString() {
         return "EntriesModel{" +
-                "month='" + month + '\'' +
+                "id='" + id + '\'' +
+                ", month='" + month + '\'' +
+                ", monthNum='" + monthNum + '\'' +
                 ", day='" + day + '\'' +
                 ", week='" + week + '\'' +
                 ", weekShort='" + weekShort + '\'' +

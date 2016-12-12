@@ -11,9 +11,14 @@ import android.view.View;
 import com.flyco.tablayout.SegmentTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.sweet.qianqian.R;
+import com.sweet.qianqian.calender.CalendarFragment;
 import com.sweet.qianqian.diary.DiaryFragment;
 import com.sweet.qianqian.entries.EntriesFragment;
-import com.sweet.qianqian.moments.MomentsFragment;
+import com.sweet.qianqian.utils.DiaryEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -43,9 +48,9 @@ public class MainActivity extends FragmentActivity {
 
     private void init() {
         fragments = new ArrayList<Fragment>();
-        fragments.add(EntriesFragment.newInstance(0));
-        fragments.add(MomentsFragment.newInstance(1));
-        fragments.add(DiaryFragment.newInstance(2));
+        fragments.add(EntriesFragment.getInstance());
+        fragments.add(CalendarFragment.getInstance());
+        fragments.add(DiaryFragment.getInstance());
 
         mainSlidingTab.setTabData(titles);
 
@@ -79,6 +84,21 @@ public class MainActivity extends FragmentActivity {
             }
         });
         vp.setCurrentItem(0);
+
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(DiaryEvent event) {
+        if (vp != null) {
+            vp.setCurrentItem(0);
+        }
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {

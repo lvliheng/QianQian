@@ -6,6 +6,7 @@
               android:background="@android:color/transparent">
 
         <TextView
+            android:id="@+id/entries_item_month_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
@@ -22,7 +23,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
         android:padding="10dp"
         android:background="@drawable/entries_item_bg"
         android:orientation="horizontal">
@@ -36,6 +39,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/entries_item_day_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
@@ -44,6 +48,7 @@
                 android:text="6"/>
 
             <TextView
+                android:id="@+id/entries_item_week_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
@@ -61,6 +66,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/entries_item_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
@@ -68,6 +74,7 @@
                 android:text="09:39"/>
 
             <TextView
+                android:id="@+id/entries_item_title_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -78,6 +85,7 @@
                 android:text="@string/moments_value"/>
 
             <TextView
+                android:id="@+id/entries_item_content_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -88,6 +96,7 @@
                 android:text="@string/moments_value"/>
 
             <TextView
+                android:id="@+id/entries_item_position_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -114,6 +123,7 @@
                 android:background="@mipmap/weather_sun_icon"/>
 
             <ImageView
+                android:id="@+id/entries_item_emotion_iv"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="5dp"
@@ -123,6 +133,7 @@
                 android:background="@mipmap/emotion_smile_icon"/>
 
             <ImageView
+                android:id="@+id/entries_item_pic_iv"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginLeft="5dp"

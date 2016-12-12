@@ -45,7 +45,10 @@
         </activity>
 
         <activity
-            android:name=".main.MainActivity"/>
+                  android:name=".main.MainActivity"/>
+        <activity android:name=".entries.EntriesDetailActivity"
+                  android:theme="@style/FloatActivity"
+                  android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
     </application>
 
 

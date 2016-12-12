@@ -5,9 +5,13 @@
               android:layout_height="match_parent"
               android:background="@color/main">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/entries_rv"
+    <CalendarView
+        android:id="@+id/my_calendar_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:focusedMonthDateColor="@color/white"
+        android:unfocusedMonthDateColor="@color/gray"
+        android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>

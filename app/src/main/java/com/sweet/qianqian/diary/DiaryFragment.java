@@ -16,24 +16,32 @@
 
 package com.sweet.qianqian.diary;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.SaveCallback;
 import com.sweet.qianqian.R;
 import com.sweet.qianqian.common.ResizeRelativeLayout;
 import com.sweet.qianqian.entries.EntriesDBModel;
+import com.sweet.qianqian.entries.EntriesModel;
 import com.sweet.qianqian.main.BaseFragment;
-import com.sweet.qianqian.utils.LogUtils;
+import com.sweet.qianqian.utils.DiaryEvent;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -85,20 +93,16 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
     private String position;
     private String monthNum;
 
+    private InputMethodManager inputMethodManager;
 
 
-    public static DiaryFragment newInstance(int position) {
-        DiaryFragment tempFragment = new DiaryFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(EXTRA_POSITION, position);
-        tempFragment.setArguments(bundle);
-        return tempFragment;
-    }
+    private static DiaryFragment diaryFragment;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        int position = getArguments().getInt(EXTRA_POSITION);
+    public static DiaryFragment getInstance() {
+        if (diaryFragment == null) {
+            diaryFragment = new DiaryFragment();
+        }
+        return diaryFragment;
     }
 
     @Override
@@ -115,6 +119,8 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
         emotion = "0";
         position = "Tokyo";
 
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.CHINA);
+        inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
         diaryMainRl.setLayoutSizeChangeListenner(this);
         diaryWeatherIb.setOnClickListener(this);
@@ -128,12 +134,14 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeZone(TimeZone.getDefault());
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
+
         diaryDateMonthTv.setText(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH));
         diaryDateDayTv.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
         diaryDateWeekTv.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH));
-        diaryDateTimeTv.setText(calendar.get(Calendar.HOUR_OF_DAY) + " : " + calendar.get(Calendar.MINUTE));
+        diaryDateTimeTv.setText(simpleDateFormat.format(calendar.getTime()));
         weekShort = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ENGLISH) + ".";
-        monthNum = String.valueOf(calendar.get(Calendar.MONTH));
+        monthNum = String.valueOf(calendar.get(Calendar.MONTH) + 1);
+        diaryPositionTv.setText(position);
     }
 
     @Override
@@ -160,7 +168,7 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private void deliverData() {
-        AVObject avObject = new AVObject(EntriesDBModel.ENTRIES);
+        final AVObject avObject = new AVObject(EntriesDBModel.ENTRIES);
         avObject.put(EntriesDBModel.MONTH, diaryDateMonthTv.getText());
         avObject.put(EntriesDBModel.MONTH_NUM, monthNum);
         avObject.put(EntriesDBModel.DAY, diaryDateDayTv.getText());
@@ -172,8 +180,34 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
         avObject.put(EntriesDBModel.EMOTION, emotion);
         avObject.put(EntriesDBModel.TITLE, diaryTitleEt.getText().toString().trim());
         avObject.put(EntriesDBModel.CONTENT, diaryContentEt.getText().toString().trim());
-        LogUtils.e("entries", "" + avObject);
-        avObject.saveInBackground();
+
+        final EntriesModel model = new EntriesModel();
+        model.setMonth(diaryDateMonthTv.getText().toString());
+        model.setMonthNum(monthNum);
+        model.setDay(diaryDateDayTv.getText().toString());
+        model.setWeek(diaryDateWeekTv.getText().toString());
+        model.setWeekShort(weekShort);
+        model.setTime(diaryDateTimeTv.getText().toString());
+        model.setPosition(position);
+        model.setWeather(weather);
+        model.setEmotion(emotion);
+        model.setTitle(diaryTitleEt.getText().toString().trim());
+        model.setContent(diaryContentEt.getText().toString().trim());
+        
+        avObject.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(AVException e) {
+                if (e == null) {
+                    model.setId(avObject.getObjectId());
+                    inputMethodManager.hideSoftInputFromWindow(diaryTitleEt.getWindowToken(), 0);
+                    inputMethodManager.hideSoftInputFromWindow(diaryContentEt.getWindowToken(), 0);
+                    Message msg = new Message();
+                    msg.what = 2;
+                    msg.obj = model;
+                    handler.sendMessageDelayed(msg, 400);
+                }
+            }
+        });
     }
 
     @Override
@@ -195,6 +229,11 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
                     break;
                 case 1:
                     diaryMainRl.setPadding(0, 0, 0, 0);
+                    break;
+                case 2:
+                    EventBus.getDefault().post(new DiaryEvent((EntriesModel) msg.obj));
+                    break;
+                default:
                     break;
             }
         }

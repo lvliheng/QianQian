@@ -6,7 +6,9 @@ package com.sweet.qianqian.entries;
 public class EntriesDBModel {
 
     public static String ENTRIES = "entries";
-    
+
+
+    public static String ID = "objectId";
     public static String MONTH = "month";
     public static String MONTH_NUM = "month_num";
     public static String DAY = "day";
