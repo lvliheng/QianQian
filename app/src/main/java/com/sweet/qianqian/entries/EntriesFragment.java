@@ -97,10 +97,11 @@ public class EntriesFragment extends BaseFragment {
                         model.setWeather(temp.getString(EntriesDBModel.WEATHER));
                         model.setWeek(temp.getString(EntriesDBModel.WEEK));
                         model.setWeekShort(temp.getString(EntriesDBModel.WEEK_SHORT));
+
                         if (models.size() == 0) {
                             models.add(model);
                         } else {
-                            if (temp.getString(EntriesDBModel.TIME).compareTo(models.get(0).getTime()) > 0) {
+                            if (String.valueOf(temp.getCreatedAt()).compareTo(models.get(0).getCreate()) > 0) {
                                 models.add(0, model);
                             } else {
                                 models.add(model);
@@ -165,10 +166,12 @@ public class EntriesFragment extends BaseFragment {
             case 0:
                 if (data != null && data.getExtras() != null) {
                     Bundle bundle = data.getExtras();
-                    for (EntriesModel temp : models) {
-                        if (temp.getId().equals(bundle.getString(EXTRA_ID, "0"))) {
-                            temp.setTitle(bundle.getString(EXTRA_TITLE, ""));
-                            temp.setContent(bundle.getString(EXTRA_CONTENT, ""));
+                    if (models != null) {
+                        for (EntriesModel temp : models) {
+                            if (temp.getId().equals(bundle.getString(EXTRA_ID, "0"))) {
+                                temp.setTitle(bundle.getString(EXTRA_TITLE, ""));
+                                temp.setContent(bundle.getString(EXTRA_CONTENT, ""));
+                            }
                         }
                     }
                     if (adapter != null) {

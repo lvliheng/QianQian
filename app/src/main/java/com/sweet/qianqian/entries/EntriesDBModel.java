@@ -20,6 +20,7 @@ public class EntriesDBModel {
     public static String EMOTION = "emotion";
     public static String TITLE = "title";
     public static String CONTENT = "content";
+    public static String CREATE = "create";
 
 
     

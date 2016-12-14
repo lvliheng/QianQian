@@ -51,7 +51,6 @@ import butterknife.ButterKnife;
 
 public class DiaryFragment extends BaseFragment implements View.OnClickListener, ResizeRelativeLayout.LayoutSizeChangeListener {
 
-    private static final String EXTRA_POSITION = "position";
     @BindView(R.id.diary_date_month_tv)
     TextView diaryDateMonthTv;
     @BindView(R.id.diary_date_day_tv)
@@ -94,7 +93,6 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
     private String monthNum;
 
     private InputMethodManager inputMethodManager;
-
 
     private static DiaryFragment diaryFragment;
 
@@ -199,6 +197,7 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
             public void done(AVException e) {
                 if (e == null) {
                     model.setId(avObject.getObjectId());
+                    model.setCreate(avObject.getCreatedAt().toString());
                     inputMethodManager.hideSoftInputFromWindow(diaryTitleEt.getWindowToken(), 0);
                     inputMethodManager.hideSoftInputFromWindow(diaryContentEt.getWindowToken(), 0);
                     Message msg = new Message();

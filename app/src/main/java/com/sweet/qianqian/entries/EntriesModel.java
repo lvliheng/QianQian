@@ -19,6 +19,7 @@ public class EntriesModel implements Serializable {
     private String emotion;
     private String title;
     private String content;
+    private String create;
 
 
     public String getId() {
@@ -117,6 +118,14 @@ public class EntriesModel implements Serializable {
         this.content = content;
     }
 
+    public String getCreate() {
+        return create;
+    }
+
+    public void setCreate(String create) {
+        this.create = create;
+    }
+
     @Override
     public String toString() {
         return "EntriesModel{" +
@@ -132,6 +141,7 @@ public class EntriesModel implements Serializable {
                 ", emotion='" + emotion + '\'' +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
+                ", create='" + create + '\'' +
                 '}';
     }
 }
