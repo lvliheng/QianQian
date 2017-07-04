@@ -12,9 +12,9 @@ public class MyApplication extends Application {
     //LEAN CLOUD
     
 
-    private String LEAN_APP_ID = "";
-    private String LEAN_APP_KEY = "";
-    private String LEAN_MASTER_KEY = "";
+    private String LEAN_APP_ID = "UAG63CXoxjt7UPCEgH0pHWK9-gzGzoHsz";
+    private String LEAN_APP_KEY = "J3lgOrverE9HDoSM2ymHOla0";
+    private String LEAN_MASTER_KEY = "LffgV05krkIFkMCntBl3wIRs";
 
 
 

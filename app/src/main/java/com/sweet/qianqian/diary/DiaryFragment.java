@@ -20,6 +20,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.SaveCallback;
@@ -50,6 +55,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DiaryFragment extends BaseFragment implements View.OnClickListener, ResizeRelativeLayout.LayoutSizeChangeListener {
+
+
+    private static final String TAG = "DiaryFragment";
 
     @BindView(R.id.diary_date_month_tv)
     TextView diaryDateMonthTv;
@@ -94,6 +102,9 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
 
     private InputMethodManager inputMethodManager;
 
+
+    private AMapLocationClient client;
+
     private static DiaryFragment diaryFragment;
 
     public static DiaryFragment getInstance() {
@@ -115,10 +126,32 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
 
         weather = "0";
         emotion = "0";
-        position = "Tokyo";
+        position = "定位中...";
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.CHINA);
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+
+        client = new AMapLocationClient(getContext());
+        AMapLocationClientOption option = new AMapLocationClientOption();
+        option.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        option.setOnceLocation(true);
+        option.setOnceLocationLatest(true);
+        client.setLocationOption(option);
+        client.setLocationListener(new AMapLocationListener() {
+            @Override
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                if (aMapLocation == null) {
+                    Log.e(TAG, "onLocationChanged: " + null);
+                } else {
+                    Log.e(TAG, "onLocationChanged: " + aMapLocation.getAddress());
+                    position = aMapLocation.getCity() + aMapLocation.getDistrict() + aMapLocation.getStreet()
+                            + aMapLocation.getStreetNum();
+                    handler.sendEmptyMessage(3);
+                }
+            }
+        });
+        client.startLocation();
 
         diaryMainRl.setLayoutSizeChangeListenner(this);
         diaryWeatherIb.setOnClickListener(this);
@@ -176,8 +209,8 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
         avObject.put(EntriesDBModel.POSITION, position);
         avObject.put(EntriesDBModel.WEATHER, weather);
         avObject.put(EntriesDBModel.EMOTION, emotion);
-        avObject.put(EntriesDBModel.TITLE, diaryTitleEt.getText().toString().trim());
-        avObject.put(EntriesDBModel.CONTENT, diaryContentEt.getText().toString().trim());
+        avObject.put(EntriesDBModel.TITLE, diaryTitleEt.getText().toString().trim().getBytes());
+        avObject.put(EntriesDBModel.CONTENT, diaryContentEt.getText().toString().trim().getBytes());
 
         final EntriesModel model = new EntriesModel();
         model.setMonth(diaryDateMonthTv.getText().toString());
@@ -197,7 +230,7 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
             public void done(AVException e) {
                 if (e == null) {
                     model.setId(avObject.getObjectId());
-                    model.setCreate(avObject.getCreatedAt().toString());
+                    model.setCreate(avObject.getCreatedAt());
                     inputMethodManager.hideSoftInputFromWindow(diaryTitleEt.getWindowToken(), 0);
                     inputMethodManager.hideSoftInputFromWindow(diaryContentEt.getWindowToken(), 0);
                     Message msg = new Message();
@@ -232,6 +265,9 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
                 case 2:
                     EventBus.getDefault().post(new DiaryEvent((EntriesModel) msg.obj));
                     break;
+                case 3:
+                    diaryPositionTv.setText(position);
+                    break;
                 default:
                     break;
             }
@@ -239,4 +275,11 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
     };
 
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (client != null) {
+            client.stopLocation();
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.sweet.qianqian.entries;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by lvliheng on 16/12/6.
@@ -19,7 +20,7 @@ public class EntriesModel implements Serializable {
     private String emotion;
     private String title;
     private String content;
-    private String create;
+    private Date create;
 
 
     public String getId() {
@@ -118,11 +119,11 @@ public class EntriesModel implements Serializable {
         this.content = content;
     }
 
-    public String getCreate() {
+    public Date getCreate() {
         return create;
     }
 
-    public void setCreate(String create) {
+    public void setCreate(Date create) {
         this.create = create;
     }
 

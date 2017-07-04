@@ -81,19 +81,23 @@ public class EntriesFragment extends BaseFragment {
         avQuery.findInBackground(new FindCallback<AVObject>() {
             @Override
             public void done(List<AVObject> list, AVException e) {
+                if (list == null) {
+                    return;
+                }
                 EntriesModel model;
                 for (AVObject temp : list) {
                     try {
                         model = new EntriesModel();
                         model.setId(temp.getObjectId());
-                        model.setContent(temp.getString(EntriesDBModel.CONTENT));
+                        model.setCreate(temp.getCreatedAt());
+                        model.setContent(new String(temp.getBytes(EntriesDBModel.CONTENT)));
                         model.setDay(temp.getString(EntriesDBModel.DAY));
                         model.setEmotion(temp.getString(EntriesDBModel.EMOTION));
                         model.setMonth(temp.getString(EntriesDBModel.MONTH));
                         model.setMonthNum(temp.getString(EntriesDBModel.MONTH_NUM));
                         model.setPosition(temp.getString(EntriesDBModel.POSITION));
                         model.setTime(temp.getString(EntriesDBModel.TIME));
-                        model.setTitle(temp.getString(EntriesDBModel.TITLE));
+                        model.setTitle(new String(temp.getBytes(EntriesDBModel.TITLE)));
                         model.setWeather(temp.getString(EntriesDBModel.WEATHER));
                         model.setWeek(temp.getString(EntriesDBModel.WEEK));
                         model.setWeekShort(temp.getString(EntriesDBModel.WEEK_SHORT));
@@ -101,7 +105,7 @@ public class EntriesFragment extends BaseFragment {
                         if (models.size() == 0) {
                             models.add(model);
                         } else {
-                            if (String.valueOf(temp.getCreatedAt()).compareTo(models.get(0).getCreate()) > 0) {
+                            if (temp.getCreatedAt().after(models.get(0).getCreate())) {
                                 models.add(0, model);
                             } else {
                                 models.add(model);
