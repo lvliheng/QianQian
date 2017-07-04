@@ -25,6 +25,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -260,11 +261,9 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
             switch (msg.what) {
                 case 0:
                     startHeadAnimation(0, -diaryDateLl.getHeight());
-//                    diaryMainRl.setPadding(0, -diaryDateLl.getHeight(), 0, 0);
                     break;
                 case 1:
                     startHeadAnimation(-diaryDateLl.getHeight(), 0);
-//                    diaryMainRl.setPadding(0, 0, 0, 0);
                     break;
                 case 2:
                     EventBus.getDefault().post(new DiaryEvent((EntriesModel) msg.obj));
@@ -287,7 +286,7 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
                 diaryMainRl.setPadding(0, Integer.parseInt("" + animation.getAnimatedValue()), 0, 0);
             }
         });
-        animator.setInterpolator(new AccelerateInterpolator());
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
         animator.start();
     }
 

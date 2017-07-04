@@ -1,10 +1,13 @@
 package com.sweet.qianqian.entries;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -119,16 +122,29 @@ public class EntriesDetailActivity extends BaseActivity implements View.OnClickL
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-                    diaryMainRl.setPadding(0, -diaryDateLl.getHeight(), 0, 0);
+                    startHeadAnimation(0, -diaryDateLl.getHeight());
                     entriesDetailMainRl.setPadding(10, 0, 10, 0);
                     break;
                 case 1:
-                    diaryMainRl.setPadding(0, 0, 0, 0);
+                    startHeadAnimation(-diaryDateLl.getHeight(), 0);
                     entriesDetailMainRl.setPadding(10, 50, 10, 50);
                     break;
             }
         }
     };
+
+    private void startHeadAnimation(int start, int end) {
+        ValueAnimator animator = ValueAnimator.ofInt(start, end);
+        animator.setDuration(200);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                diaryMainRl.setPadding(0, Integer.parseInt("" + animation.getAnimatedValue()), 0, 0);
+            }
+        });
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.start();
+    }
 
     @Override
     public void onClick(View v) {
