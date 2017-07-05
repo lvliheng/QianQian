@@ -71,10 +71,12 @@
         </activity>
 
         <activity
-                  android:name=".main.MainActivity"/>
-        <activity android:name=".entries.EntriesDetailActivity"
-                  android:theme="@style/FloatActivity"
-                  android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+            android:name=".main.MainActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".entries.EntriesDetailActivity"
+            android:theme="@style/FloatActivity"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
 
 
         <!--amap-->

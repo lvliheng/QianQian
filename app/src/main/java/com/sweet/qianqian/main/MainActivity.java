@@ -1,6 +1,7 @@
 package com.sweet.qianqian.main;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -86,6 +87,11 @@ public class MainActivity extends FragmentActivity {
         vp.setCurrentItem(0);
 
         EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+//        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     @Override
