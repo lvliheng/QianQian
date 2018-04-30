@@ -49,6 +49,7 @@ import com.sweet.qianqian.utils.DiaryEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -129,7 +130,7 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
 
         weather = "0";
         emotion = "0";
-        position = "定位中...";
+        position = getString(R.string.postion_init);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.CHINA);
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -254,28 +255,40 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
         }
     }
 
-    private Handler handler = new Handler(){
+    private static class MyHandler extends Handler{
+
+        private WeakReference<DiaryFragment> weakReference;
+
+        private MyHandler(DiaryFragment diaryFragment) {
+            weakReference = new WeakReference<>(diaryFragment);
+        }
+
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what) {
-                case 0:
-                    startHeadAnimation(0, -diaryDateLl.getHeight());
-                    break;
-                case 1:
-                    startHeadAnimation(-diaryDateLl.getHeight(), 0);
-                    break;
-                case 2:
-                    EventBus.getDefault().post(new DiaryEvent((EntriesModel) msg.obj));
-                    break;
-                case 3:
-                    diaryPositionTv.setText(position);
-                    break;
-                default:
-                    break;
+            DiaryFragment diaryFragment = weakReference.get();
+            if (diaryFragment != null) {
+                switch (msg.what) {
+                    case 0:
+                        diaryFragment.startHeadAnimation(0, -diaryFragment.diaryDateLl.getHeight());
+                        break;
+                    case 1:
+                        diaryFragment.startHeadAnimation(-diaryFragment.diaryDateLl.getHeight(), 0);
+                        break;
+                    case 2:
+                        EventBus.getDefault().post(new DiaryEvent((EntriesModel) msg.obj));
+                        break;
+                    case 3:
+                        diaryFragment.diaryPositionTv.setText(diaryFragment.position);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
-    };
+    }
+
+    private MyHandler handler = new MyHandler(this);
 
     private void startHeadAnimation(int start, int end) {
         ValueAnimator animator = ValueAnimator.ofInt(start, end);

@@ -5,4 +5,7 @@
     <string name="splash_days">days</string>
     <string name="moments_value">今天天气不错，挺风和日丽的，我们下午没有课 今天天气不错，挺风和日丽的，我们下午没有课 今天天气不错，挺风和日丽的，我们下午没有课</string>
     <string name="diary_title">今天天气不错</string>
+    <string name="content_hint">今天发生了什么事？</string>
+    <string name="title_hint">心情怎么样？</string>
+    <string name="postion_init">定位中...</string>
 </resources>
