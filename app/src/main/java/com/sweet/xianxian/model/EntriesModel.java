@@ -1,4 +1,4 @@
-package com.sweet.qianqian.entries;
+package com.sweet.xianxian.model;
 
 import java.io.Serializable;
 import java.util.Date;

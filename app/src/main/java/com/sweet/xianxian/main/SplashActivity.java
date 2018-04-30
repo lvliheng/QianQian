@@ -1,4 +1,4 @@
-package com.sweet.qianqian.main;
+package com.sweet.xianxian.main;
 
 import android.Manifest;
 import android.animation.Animator;
@@ -19,7 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sweet.qianqian.R;
+import com.sweet.xianxian.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

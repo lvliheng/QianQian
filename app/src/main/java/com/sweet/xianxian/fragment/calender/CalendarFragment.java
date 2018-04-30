@@ -1,4 +1,4 @@
-package com.sweet.qianqian.calender;
+package com.sweet.xianxian.fragment.calender;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sweet.qianqian.R;
-import com.sweet.qianqian.main.BaseFragment;
+import com.sweet.xianxian.R;
+import com.sweet.xianxian.main.BaseFragment;
 
 /**
  * Created by lvliheng on 16/12/12.

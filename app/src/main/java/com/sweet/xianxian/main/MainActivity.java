@@ -1,7 +1,8 @@
-package com.sweet.qianqian.main;
+package com.sweet.xianxian.main;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.provider.CalendarContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -11,11 +12,11 @@ import android.view.View;
 
 import com.flyco.tablayout.SegmentTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
-import com.sweet.qianqian.R;
-import com.sweet.qianqian.calender.CalendarFragment;
-import com.sweet.qianqian.diary.DiaryFragment;
-import com.sweet.qianqian.entries.EntriesFragment;
-import com.sweet.qianqian.utils.DiaryEvent;
+import com.sweet.xianxian.R;
+import com.sweet.xianxian.fragment.calender.CalendarFragment;
+import com.sweet.xianxian.fragment.diary.DiaryFragment;
+import com.sweet.xianxian.fragment.entries.EntriesFragment;
+import com.sweet.xianxian.utils.DiaryEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

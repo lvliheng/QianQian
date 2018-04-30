@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sweet.qianqian.diary;
+package com.sweet.xianxian.fragment.diary;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -26,7 +26,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -40,12 +39,12 @@ import com.amap.api.location.AMapLocationListener;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.SaveCallback;
-import com.sweet.qianqian.R;
-import com.sweet.qianqian.common.ResizeRelativeLayout;
-import com.sweet.qianqian.entries.EntriesDBModel;
-import com.sweet.qianqian.entries.EntriesModel;
-import com.sweet.qianqian.main.BaseFragment;
-import com.sweet.qianqian.utils.DiaryEvent;
+import com.sweet.xianxian.R;
+import com.sweet.xianxian.view.ResizeRelativeLayout;
+import com.sweet.xianxian.model.EntriesDBModel;
+import com.sweet.xianxian.model.EntriesModel;
+import com.sweet.xianxian.main.BaseFragment;
+import com.sweet.xianxian.utils.DiaryEvent;
 
 import org.greenrobot.eventbus.EventBus;
 

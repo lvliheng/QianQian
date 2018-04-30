@@ -1,6 +1,6 @@
-package com.sweet.qianqian.utils;
+package com.sweet.xianxian.utils;
 
-import com.sweet.qianqian.entries.EntriesModel;
+import com.sweet.xianxian.model.EntriesModel;
 
 /**
  * Created by lvliheng on 16/12/12.

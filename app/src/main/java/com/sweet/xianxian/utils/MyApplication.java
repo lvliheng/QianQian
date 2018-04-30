@@ -1,4 +1,4 @@
-package com.sweet.qianqian.utils;
+package com.sweet.xianxian.utils;
 
 import android.app.Application;
 

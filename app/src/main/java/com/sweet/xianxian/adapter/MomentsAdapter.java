@@ -1,4 +1,4 @@
-package com.sweet.qianqian.moments;
+package com.sweet.xianxian.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -6,8 +6,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sweet.qianqian.R;
-import com.sweet.qianqian.main.MyBaseAdapter;
+import com.sweet.xianxian.R;
+import com.sweet.xianxian.adapter.MyBaseAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

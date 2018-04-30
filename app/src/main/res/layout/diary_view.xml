@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sweet.qianqian.common.ResizeRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sweet.xianxian.view.ResizeRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/diary_main_rl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -126,4 +126,4 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"/>
 
-</com.sweet.qianqian.common.ResizeRelativeLayout>
+</com.sweet.xianxian.view.ResizeRelativeLayout>

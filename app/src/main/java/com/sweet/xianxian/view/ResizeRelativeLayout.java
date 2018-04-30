@@ -1,4 +1,4 @@
-package com.sweet.qianqian.common;
+package com.sweet.xianxian.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

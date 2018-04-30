@@ -1,4 +1,4 @@
-package com.sweet.qianqian.main;
+package com.sweet.xianxian.adapter;
 
 import android.view.View;
 import android.view.ViewGroup;

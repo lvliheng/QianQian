@@ -1,4 +1,4 @@
-package com.sweet.qianqian.entries;
+package com.sweet.xianxian.adapter;
 
 import android.content.Context;
 import android.os.Handler;
@@ -9,7 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sweet.qianqian.R;
+import com.sweet.xianxian.R;
+import com.sweet.xianxian.model.EntriesModel;
 
 import java.util.List;
 

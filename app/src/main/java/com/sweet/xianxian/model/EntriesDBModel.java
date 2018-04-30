@@ -1,4 +1,4 @@
-package com.sweet.qianqian.entries;
+package com.sweet.xianxian.model;
 
 /**
  * Created by lvliheng on 16/12/6.

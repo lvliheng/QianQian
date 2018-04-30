@@ -1,4 +1,4 @@
-package com.sweet.qianqian.main;
+package com.sweet.xianxian.main;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

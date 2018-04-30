@@ -1,4 +1,4 @@
-package com.sweet.qianqian.entries;
+package com.sweet.xianxian.activity;
 
 import android.animation.ValueAnimator;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -17,10 +16,12 @@ import android.widget.TextView;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.SaveCallback;
-import com.sweet.qianqian.R;
-import com.sweet.qianqian.common.ResizeRelativeLayout;
-import com.sweet.qianqian.main.BaseActivity;
-import com.sweet.qianqian.utils.LogUtils;
+import com.sweet.xianxian.R;
+import com.sweet.xianxian.fragment.entries.EntriesFragment;
+import com.sweet.xianxian.model.EntriesDBModel;
+import com.sweet.xianxian.model.EntriesModel;
+import com.sweet.xianxian.view.ResizeRelativeLayout;
+import com.sweet.xianxian.main.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

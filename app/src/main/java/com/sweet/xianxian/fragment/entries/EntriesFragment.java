@@ -1,4 +1,4 @@
-package com.sweet.qianqian.entries;
+package com.sweet.xianxian.fragment.entries;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,9 +16,13 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.FindCallback;
-import com.sweet.qianqian.R;
-import com.sweet.qianqian.main.BaseFragment;
-import com.sweet.qianqian.utils.DiaryEvent;
+import com.sweet.xianxian.R;
+import com.sweet.xianxian.activity.EntriesDetailActivity;
+import com.sweet.xianxian.adapter.EntriesAdapter;
+import com.sweet.xianxian.main.BaseFragment;
+import com.sweet.xianxian.model.EntriesDBModel;
+import com.sweet.xianxian.model.EntriesModel;
+import com.sweet.xianxian.utils.DiaryEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

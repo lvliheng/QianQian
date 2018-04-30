@@ -1,4 +1,4 @@
-package com.sweet.qianqian.moments;
+package com.sweet.xianxian.fragment.moments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,8 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.sweet.qianqian.R;
-import com.sweet.qianqian.main.BaseFragment;
+import com.sweet.xianxian.R;
+import com.sweet.xianxian.adapter.MomentsAdapter;
+import com.sweet.xianxian.main.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
