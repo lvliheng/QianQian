@@ -20,8 +20,10 @@ import com.sweet.xianxian.R;
 import com.sweet.xianxian.fragment.entries.EntriesFragment;
 import com.sweet.xianxian.model.EntriesDBModel;
 import com.sweet.xianxian.model.EntriesModel;
-import com.sweet.xianxian.view.ResizeRelativeLayout;
+import com.sweet.xianxian.view.MyRelativeLayout;
 import com.sweet.xianxian.main.BaseActivity;
+
+import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +31,7 @@ import butterknife.ButterKnife;
 /**
  * Created by lvliheng on 16/12/12.
  */
-public class EntriesDetailActivity extends BaseActivity implements View.OnClickListener, ResizeRelativeLayout.LayoutSizeChangeListener {
+public class EntriesDetailActivity extends BaseActivity implements View.OnClickListener, MyRelativeLayout.MyInputMethodListener {
 
 
     @BindView(R.id.diary_date_month_tv)
@@ -65,14 +67,18 @@ public class EntriesDetailActivity extends BaseActivity implements View.OnClickL
     @BindView(R.id.diary_toolbar_save_ib)
     ImageButton diaryToolbarSaveIb;
     @BindView(R.id.diary_main_rl)
-    ResizeRelativeLayout diaryMainRl;
+    MyRelativeLayout diaryMainRl;
     @BindView(R.id.entries_detail_main_rl)
     RelativeLayout entriesDetailMainRl;
 
+    public static final int HANDLER_INPUT_METHOD_SHOWN = 0;
+    public static final int HANDLER_INPUT_METHOD_HIDDEN = 1;
 
     public static String EXTRA_MODEL = "model";
 
     private EntriesModel model;
+
+    private Handler handler;
 
 
     @Override
@@ -88,7 +94,7 @@ public class EntriesDetailActivity extends BaseActivity implements View.OnClickL
         if (bundle != null) {
             model = (EntriesModel) bundle.getSerializable(EXTRA_MODEL);
         }
-        diaryMainRl.setLayoutSizeChangeListenner(this);
+        diaryMainRl.setMyListener(this);
         diaryWeatherIb.setOnClickListener(this);
         diaryEmotionIb.setOnClickListener(this);
         diaryToolbarMoreIb.setOnClickListener(this);
@@ -106,33 +112,34 @@ public class EntriesDetailActivity extends BaseActivity implements View.OnClickL
             diaryTitleEt.setText(model.getTitle());
             diaryContentEt.setText(model.getContent());
         }
+
+        handler = new MyHandler(this);
     }
 
-    @Override
-    public void onIsSoftInputShow(boolean isShow) {
-        if (isShow) {
-            handler.sendEmptyMessage(0);
-        } else {
-            handler.sendEmptyMessage(1);
+    private static class MyHandler extends Handler{
+
+        WeakReference<EntriesDetailActivity> weakReference;
+
+        private MyHandler(EntriesDetailActivity activity) {
+            weakReference = new WeakReference<>(activity);
         }
-    }
 
-    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            EntriesDetailActivity activity = weakReference.get();
             switch (msg.what) {
-                case 0:
-                    startHeadAnimation(0, -diaryDateLl.getHeight());
-                    entriesDetailMainRl.setPadding(10, 0, 10, 0);
+                case HANDLER_INPUT_METHOD_SHOWN:
+                    activity.startHeadAnimation(0, -activity.diaryDateLl.getHeight());
+                    activity.entriesDetailMainRl.setPadding(10, 0, 10, 0);
                     break;
-                case 1:
-                    startHeadAnimation(-diaryDateLl.getHeight(), 0);
-                    entriesDetailMainRl.setPadding(10, 50, 10, 50);
+                case HANDLER_INPUT_METHOD_HIDDEN:
+                    activity.startHeadAnimation(-activity.diaryDateLl.getHeight(), 0);
+                    activity.entriesDetailMainRl.setPadding(10, 50, 10, 50);
                     break;
             }
         }
-    };
+    }
 
     private void startHeadAnimation(int start, int end) {
         ValueAnimator animator = ValueAnimator.ofInt(start, end);
@@ -197,6 +204,15 @@ public class EntriesDetailActivity extends BaseActivity implements View.OnClickL
                     }
                 }
             });
+        }
+    }
+
+    @Override
+    public void mySizeChanged(boolean isInputMethodShow) {
+        if (isInputMethodShow) {
+            handler.sendEmptyMessage(HANDLER_INPUT_METHOD_SHOWN);
+        } else {
+            handler.sendEmptyMessage(HANDLER_INPUT_METHOD_HIDDEN);
         }
     }
 }

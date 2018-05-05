@@ -40,7 +40,7 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.SaveCallback;
 import com.sweet.xianxian.R;
-import com.sweet.xianxian.view.ResizeRelativeLayout;
+import com.sweet.xianxian.view.MyRelativeLayout;
 import com.sweet.xianxian.model.EntriesDBModel;
 import com.sweet.xianxian.model.EntriesModel;
 import com.sweet.xianxian.main.BaseFragment;
@@ -57,7 +57,7 @@ import java.util.TimeZone;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DiaryFragment extends BaseFragment implements View.OnClickListener, ResizeRelativeLayout.LayoutSizeChangeListener {
+public class DiaryFragment extends BaseFragment implements View.OnClickListener, MyRelativeLayout.MyInputMethodListener {
 
 
     private static final String TAG = "DiaryFragment";
@@ -95,7 +95,7 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
     @BindView(R.id.diary_toolbar_save_ib)
     ImageButton diaryToolbarSaveIb;
     @BindView(R.id.diary_main_rl)
-    ResizeRelativeLayout diaryMainRl;
+    MyRelativeLayout diaryMainRl;
 
     private String weekShort;
     private String weather;
@@ -103,8 +103,14 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
     private String position;
     private String monthNum;
 
-    private InputMethodManager inputMethodManager;
+    public static final int HANDLER_INPUT_METHOD_SHOWN = 0;
+    public static final int HANDLER_INPUT_METHOD_HIDDEN = 1;
+    public static final int HANDLER_TIP = 2;
+    public static final int HANDLER_POSITION = 3;
 
+    private MyHandler handler;
+
+    private InputMethodManager inputMethodManager;
 
     private AMapLocationClient client;
 
@@ -150,13 +156,13 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
                     Log.e(TAG, "onLocationChanged: " + aMapLocation.getAddress());
                     position = aMapLocation.getCity() + aMapLocation.getDistrict() + aMapLocation.getStreet()
                             + aMapLocation.getStreetNum();
-                    handler.sendEmptyMessage(3);
+                    handler.sendEmptyMessage(HANDLER_POSITION);
                 }
             }
         });
         client.startLocation();
 
-        diaryMainRl.setLayoutSizeChangeListenner(this);
+        diaryMainRl.setMyListener(this);
         diaryWeatherIb.setOnClickListener(this);
         diaryEmotionIb.setOnClickListener(this);
         diaryToolbarMoreIb.setOnClickListener(this);
@@ -176,6 +182,8 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
         weekShort = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ENGLISH) + ".";
         monthNum = String.valueOf(calendar.get(Calendar.MONTH) + 1);
         diaryPositionTv.setText(position);
+
+        handler = new MyHandler(this);
     }
 
     @Override
@@ -237,7 +245,7 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
                     inputMethodManager.hideSoftInputFromWindow(diaryTitleEt.getWindowToken(), 0);
                     inputMethodManager.hideSoftInputFromWindow(diaryContentEt.getWindowToken(), 0);
                     Message msg = new Message();
-                    msg.what = 2;
+                    msg.what = HANDLER_TIP;
                     msg.obj = model;
                     handler.sendMessageDelayed(msg, 400);
                 }
@@ -246,11 +254,11 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
     }
 
     @Override
-    public void onIsSoftInputShow(boolean isShow) {
-        if (isShow) {
-            handler.sendEmptyMessage(0);
+    public void mySizeChanged(boolean isInputMethodShow) {
+        if (isInputMethodShow) {
+            handler.sendEmptyMessage(HANDLER_INPUT_METHOD_SHOWN);
         } else {
-            handler.sendEmptyMessage(1);
+            handler.sendEmptyMessage(HANDLER_INPUT_METHOD_HIDDEN);
         }
     }
 
@@ -268,16 +276,16 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
             DiaryFragment diaryFragment = weakReference.get();
             if (diaryFragment != null) {
                 switch (msg.what) {
-                    case 0:
+                    case HANDLER_INPUT_METHOD_SHOWN:
                         diaryFragment.startHeadAnimation(0, -diaryFragment.diaryDateLl.getHeight());
                         break;
-                    case 1:
+                    case HANDLER_INPUT_METHOD_HIDDEN:
                         diaryFragment.startHeadAnimation(-diaryFragment.diaryDateLl.getHeight(), 0);
                         break;
-                    case 2:
+                    case HANDLER_TIP:
                         EventBus.getDefault().post(new DiaryEvent((EntriesModel) msg.obj));
                         break;
-                    case 3:
+                    case HANDLER_POSITION:
                         diaryFragment.diaryPositionTv.setText(diaryFragment.position);
                         break;
                     default:
@@ -286,8 +294,6 @@ public class DiaryFragment extends BaseFragment implements View.OnClickListener,
             }
         }
     }
-
-    private MyHandler handler = new MyHandler(this);
 
     private void startHeadAnimation(int start, int end) {
         ValueAnimator animator = ValueAnimator.ofInt(start, end);
